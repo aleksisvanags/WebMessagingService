@@ -19,10 +19,11 @@ server.bind(ADDR)
 
 users = {}
 connections = []
-all_messages = []
+
 
 def handle_client(conn, addr):
-    global all_messages
+    """ Detect and handle messages for all seperate clients """
+    all_messages = []
     print(f"[NEW CONNECTION] {addr} connected.")
     connected = True
     while connected:
@@ -37,7 +38,7 @@ def handle_client(conn, addr):
                     users[addr] = msg.split(" ", 1)[1]
                     connections.append(conn)
                 elif msg == REQUEST_HISTORY:
-                    requestAllMessages(conn)
+                    requestAllMessages(conn, all_messages)
                 if not msg.startswith(USERNAME_MESSAGE) and msg != REQUEST_HISTORY:
                     all_messages.append(f"\n[{users[addr]}] {msg}")
                     print(f"[{users[addr]}] {msg}")
@@ -49,7 +50,9 @@ def handle_client(conn, addr):
     connections.remove(conn)
     conn.close()
 
+
 def start():
+    """ Start the server """
     server.listen()
     print(f"[LISTENING] Server is listening on {SERVER}")
     while True:
@@ -58,12 +61,16 @@ def start():
         thread.start()
         print(f"[ACTIVE CONNECTIONS] {threading.active_count() - 1}")
 
+
 def update_clients():
+    """ Send new messages to all clients """
     for conn in connections:
-        message = all_messages[len(all_messages) - 1].encode(FORMAT)
+        message = all_messages[-1].encode(FORMAT)
         conn.send(message)
 
-def requestAllMessages(conn):
+
+def requestAllMessages(conn, all_messages):
+    """ A new connection can see the message history using a special command """
     for message in all_messages:
         conn.send(message.encode(FORMAT))
 

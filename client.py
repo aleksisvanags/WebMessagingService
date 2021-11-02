@@ -16,7 +16,9 @@ USERNAME_MESSAGE = "!USERNAME"
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect(ADDR)
 
+
 def send(msg):
+    """ Allows the client to send a message to the server """
     message = msg.encode(FORMAT)
     msg_length = len(message)
     send_length = str(msg_length).encode(FORMAT)
@@ -24,7 +26,9 @@ def send(msg):
     client.send(send_length)
     client.send(message)
 
+
 def recieve():
+    """ Allows the client to recive new messages from the server """
     while True:
         print(client.recv(HEADER).decode(FORMAT))
 
