@@ -32,6 +32,7 @@ def recieve():
     while True:
         print(client.recv(HEADER).decode(FORMAT))
 
+
 send(USERNAME_MESSAGE + " " + input("Enter your username:   "))
 while True:
     thread = threading.Thread(target=recieve)

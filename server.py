@@ -42,7 +42,7 @@ def handle_client(conn, addr):
                 if not msg.startswith(USERNAME_MESSAGE) and msg != REQUEST_HISTORY:
                     all_messages.append(f"\n[{users[addr]}] {msg}")
                     print(f"[{users[addr]}] {msg}")
-                    update_clients()
+                    update_clients(all_messages)
         except ConnectionResetError:
             connected = False
             print(f"[{users[addr]}] {DISCONNECT_MESSAGE}")
@@ -62,8 +62,8 @@ def start():
         print(f"[ACTIVE CONNECTIONS] {threading.active_count() - 1}")
 
 
-def update_clients():
-    """Send new messages to all client """
+def update_clients(all_messages):
+    """Send new messages to all clients"""
     for conn in connections:
         message = all_messages[-1].encode(FORMAT)
         conn.send(message)
@@ -73,6 +73,7 @@ def requestAllMessages(conn, all_messages):
     """A new connection can see the message history using a special command"""
     for message in all_messages:
         conn.send(message.encode(FORMAT))
+
 
 print("[SERVER] server is starting...")
 start()
