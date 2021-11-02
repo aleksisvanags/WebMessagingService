@@ -18,7 +18,7 @@ client.connect(ADDR)
 
 
 def send(msg):
-    """ Allows the client to send a message to the server """
+    """Allows the client to send a message to the server"""
     message = msg.encode(FORMAT)
     msg_length = len(message)
     send_length = str(msg_length).encode(FORMAT)
@@ -28,7 +28,7 @@ def send(msg):
 
 
 def recieve():
-    """ Allows the client to recive new messages from the server """
+    """Allows the client to recive new messages from the server"""
     while True:
         print(client.recv(HEADER).decode(FORMAT))
 

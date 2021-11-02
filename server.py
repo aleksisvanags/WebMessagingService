@@ -22,7 +22,7 @@ connections = []
 
 
 def handle_client(conn, addr):
-    """ Detect and handle messages for all seperate clients """
+    """Detect and handle messages for all seperate clients"""
     all_messages = []
     print(f"[NEW CONNECTION] {addr} connected.")
     connected = True
@@ -52,7 +52,7 @@ def handle_client(conn, addr):
 
 
 def start():
-    """ Start the server """
+    """Start the server"""
     server.listen()
     print(f"[LISTENING] Server is listening on {SERVER}")
     while True:
@@ -63,14 +63,14 @@ def start():
 
 
 def update_clients():
-    """ Send new messages to all clients """
+    """Send new messages to all client """
     for conn in connections:
         message = all_messages[-1].encode(FORMAT)
         conn.send(message)
 
 
 def requestAllMessages(conn, all_messages):
-    """ A new connection can see the message history using a special command """
+    """A new connection can see the message history using a special command"""
     for message in all_messages:
         conn.send(message.encode(FORMAT))
 
