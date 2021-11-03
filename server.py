@@ -35,7 +35,7 @@ def handle_client(conn, addr):
                 if msg == DISCONNECT_MESSAGE:
                     connected = False
                 elif msg.startswith(USERNAME_MESSAGE):
-                    if not addr in users: 
+                    if addr not in users:
                         users[addr] = msg.split(" ", 1)[1]
                         connections.append(conn)
                 elif msg == REQUEST_HISTORY:
