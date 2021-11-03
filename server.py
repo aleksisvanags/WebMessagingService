@@ -35,8 +35,9 @@ def handle_client(conn, addr):
                 if msg == DISCONNECT_MESSAGE:
                     connected = False
                 elif msg.startswith(USERNAME_MESSAGE):
-                    users[addr] = msg.split(" ", 1)[1]
-                    connections.append(conn)
+                    if not addr in users: 
+                        users[addr] = msg.split(" ", 1)[1]
+                        connections.append(conn)
                 elif msg == REQUEST_HISTORY:
                     requestAllMessages(conn, all_messages)
                 if not msg.startswith(USERNAME_MESSAGE) and msg != REQUEST_HISTORY:
