@@ -33,8 +33,8 @@ def recieve():
         print(client.recv(HEADER).decode(FORMAT))
 
 
+thread = threading.Thread(target=recieve)
+thread.start()
 send(USERNAME_MESSAGE + " " + input("Enter your username:   "))
 while True:
-    thread = threading.Thread(target=recieve)
-    thread.start()
     send(input())
